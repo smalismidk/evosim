@@ -21,7 +21,7 @@
     "useExternalSourceFiles": false,
     "version": "1.0.0",
     "name": "evosim",
-    "description": "",
+    "description": "evosim made by smalism\nhttps://github.com/smalismidk/evosim",
     "author": "",
     "windowWidth": 1280,
     "windowHeight": 720,
@@ -150,6 +150,23 @@
       "name": "dataforexport",
       "type": "array",
       "children": []
+    },
+    {
+      "folded": true,
+      "name": "gameSpeed",
+      "type": "number",
+      "value": 1
+    },
+    {
+      "name": "Variable",
+      "type": "number",
+      "value": 0
+    },
+    {
+      "folded": true,
+      "name": "Variable2",
+      "type": "number",
+      "value": 0
     }
   ],
   "layouts": [
@@ -173,7 +190,7 @@
         "gridColor": 10401023,
         "gridAlpha": 0.8,
         "snap": false,
-        "zoomFactor": 0.7370816317994037,
+        "zoomFactor": 0.7619362677197606,
         "windowMask": false
       },
       "objectsGroups": [],
@@ -327,6 +344,22 @@
           "x": 16,
           "y": 671,
           "zOrder": 5,
+          "numberProperties": [],
+          "stringProperties": [],
+          "initialVariables": []
+        },
+        {
+          "angle": 0,
+          "customSize": false,
+          "height": 0,
+          "keepRatio": true,
+          "layer": "ui",
+          "name": "speed",
+          "persistentUuid": "f19a3032-5995-4a49-903f-a27b89bfa95c",
+          "width": 0,
+          "x": 1108,
+          "y": 672,
+          "zOrder": 6,
           "numberProperties": [],
           "stringProperties": [],
           "initialVariables": []
@@ -628,6 +661,47 @@
             "characterSize": 30,
             "color": "0;0;0"
           }
+        },
+        {
+          "assetStoreId": "",
+          "bold": false,
+          "italic": false,
+          "name": "speed",
+          "smoothed": true,
+          "type": "TextObject::Text",
+          "underlined": false,
+          "variables": [],
+          "effects": [],
+          "behaviors": [],
+          "string": "speed: 1",
+          "font": "",
+          "textAlignment": "right",
+          "characterSize": 30,
+          "color": {
+            "b": 0,
+            "g": 0,
+            "r": 0
+          },
+          "content": {
+            "bold": false,
+            "isOutlineEnabled": false,
+            "isShadowEnabled": false,
+            "italic": false,
+            "outlineColor": "255;255;255",
+            "outlineThickness": 2,
+            "shadowAngle": 90,
+            "shadowBlurRadius": 2,
+            "shadowColor": "0;0;0",
+            "shadowDistance": 4,
+            "shadowOpacity": 127,
+            "smoothed": true,
+            "underlined": false,
+            "text": "speed: 1",
+            "font": "",
+            "textAlignment": "right",
+            "characterSize": 30,
+            "color": "0;0;0"
+          }
         }
       ],
       "objectsFolderStructure": {
@@ -647,6 +721,9 @@
           },
           {
             "objectName": "Food"
+          },
+          {
+            "objectName": "speed"
           }
         ]
       },
@@ -717,7 +794,7 @@
                 "value": "DebuggerTools::ConsoleLog"
               },
               "parameters": [
-                "\"gen\"+generation+\" spd\"+parentDna.speedAvg+\" sense\"+parentDna.senseavg+\" turn\"+ parentDna.turnAvg+\" death\"+death",
+                "\"gen\"+generation+\", spd\"+parentDna.speedAvg+\", sense\"+parentDna.senseavg+\", turn\"+ parentDna.turnAvg+\", death\"+death",
                 "\"info\"",
                 ""
               ]
@@ -728,7 +805,7 @@
               },
               "parameters": [
                 "dataforexport",
-                "\"gen\"+generation+\" spd\"+parentDna.speedAvg+\" sense\"+parentDna.senseavg+\" turn\"+ parentDna.turnAvg+\" death\"+death"
+                "\"gen\"+generation+\", spd\"+parentDna.speedAvg+\", sense\"+parentDna.senseavg+\", turn\"+ parentDna.turnAvg+\", death\"+death"
               ]
             },
             {
@@ -1573,7 +1650,7 @@
               },
               "parameters": [
                 "",
-                "\"evosimrun \"+ToString(Time(\"mday\"))+ToString(Time(\"mon\"))+ToString(Time(\"year\"))",
+                "\"evosim\"+ToString(Time(\"mday\"))+ToString(Time(\"mon\"))+ToString(Time(\"year\"))+\" \"+ToString(Time(\"hour\"))+ToString(Time(\"min\"))",
                 "tempexport",
                 ""
               ]
@@ -1586,6 +1663,340 @@
                 "tempexport",
                 "=",
                 "\"\""
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "MouseButtonReleased"
+              },
+              "parameters": [
+                "",
+                "Left"
+              ]
+            },
+            {
+              "type": {
+                "value": "SourisSurObjet"
+              },
+              "parameters": [
+                "speed",
+                "",
+                "",
+                ""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "gameSpeed",
+                "+",
+                "1"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "NumberVariable"
+              },
+              "parameters": [
+                "gameSpeed",
+                "=",
+                "1"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "ChangeTimeScale"
+              },
+              "parameters": [
+                "",
+                "1"
+              ]
+            },
+            {
+              "type": {
+                "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+              },
+              "parameters": [
+                "speed",
+                "Text",
+                "=",
+                "\"speed: \"+ToString(TimeScale())"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "NumberVariable"
+              },
+              "parameters": [
+                "gameSpeed",
+                "=",
+                "2"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "ChangeTimeScale"
+              },
+              "parameters": [
+                "",
+                "1.5"
+              ]
+            },
+            {
+              "type": {
+                "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+              },
+              "parameters": [
+                "speed",
+                "Text",
+                "=",
+                "\"speed: \"+ToString(TimeScale())"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "NumberVariable"
+              },
+              "parameters": [
+                "gameSpeed",
+                "=",
+                "3"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "ChangeTimeScale"
+              },
+              "parameters": [
+                "",
+                "2"
+              ]
+            },
+            {
+              "type": {
+                "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+              },
+              "parameters": [
+                "speed",
+                "Text",
+                "=",
+                "\"speed: \"+ToString(TimeScale())"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "NumberVariable"
+              },
+              "parameters": [
+                "gameSpeed",
+                "=",
+                "4"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "ChangeTimeScale"
+              },
+              "parameters": [
+                "",
+                "4"
+              ]
+            },
+            {
+              "type": {
+                "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+              },
+              "parameters": [
+                "speed",
+                "Text",
+                "=",
+                "\"speed: \"+ToString(TimeScale())"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "NumberVariable"
+              },
+              "parameters": [
+                "gameSpeed",
+                "=",
+                "5"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "ChangeTimeScale"
+              },
+              "parameters": [
+                "",
+                "8"
+              ]
+            },
+            {
+              "type": {
+                "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+              },
+              "parameters": [
+                "speed",
+                "Text",
+                "=",
+                "\"speed: \"+ToString(TimeScale())"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "NumberVariable"
+              },
+              "parameters": [
+                "gameSpeed",
+                "=",
+                "6"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "ChangeTimeScale"
+              },
+              "parameters": [
+                "",
+                "16"
+              ]
+            },
+            {
+              "type": {
+                "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+              },
+              "parameters": [
+                "speed",
+                "Text",
+                "=",
+                "\"speed: \"+ToString(TimeScale())"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "NumberVariable"
+              },
+              "parameters": [
+                "gameSpeed",
+                "=",
+                "7"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "ChangeTimeScale"
+              },
+              "parameters": [
+                "",
+                "24"
+              ]
+            },
+            {
+              "type": {
+                "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+              },
+              "parameters": [
+                "speed",
+                "Text",
+                "=",
+                "\"speed: \"+ToString(TimeScale())"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "NumberVariable"
+              },
+              "parameters": [
+                "gameSpeed",
+                ">=",
+                "8"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "gameSpeed",
+                "=",
+                "1"
+              ]
+            },
+            {
+              "type": {
+                "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+              },
+              "parameters": [
+                "speed",
+                "Text",
+                "=",
+                "\"speed: \"+ToString(TimeScale())"
               ]
             }
           ]
