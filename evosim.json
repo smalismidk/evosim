@@ -1477,9 +1477,16 @@
           ]
         },
         {
-          "type": "BuiltinCommonInstructions::Standard",
-          "conditions": [],
-          "actions": []
+          "type": "BuiltinCommonInstructions::Comment",
+          "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+          },
+          "comment": "Export data stuff, not that interesting"
         },
         {
           "type": "BuiltinCommonInstructions::Standard",
@@ -1569,6 +1576,16 @@
                 "\"evosimrun \"+ToString(Time(\"mday\"))+ToString(Time(\"mon\"))+ToString(Time(\"year\"))",
                 "tempexport",
                 ""
+              ]
+            },
+            {
+              "type": {
+                "value": "SetStringVariable"
+              },
+              "parameters": [
+                "tempexport",
+                "=",
+                "\"\""
               ]
             }
           ]
