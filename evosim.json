@@ -173,8 +173,8 @@
     {
       "b": 209,
       "disableInputWhenNotFocused": true,
-      "mangledName": "Untitled_32scene",
-      "name": "Untitled scene",
+      "mangledName": "main",
+      "name": "main",
       "r": 209,
       "standardSortMethod": true,
       "stopSoundsOnStartup": true,
@@ -227,9 +227,21 @@
           "type": "structure",
           "children": [
             {
-              "name": "sense",
+              "folded": true,
+              "name": "foodamt",
               "type": "number",
               "value": 250
+            },
+            {
+              "folded": true,
+              "name": "population",
+              "type": "number",
+              "value": 50
+            },
+            {
+              "name": "sense",
+              "type": "number",
+              "value": 200
             },
             {
               "name": "speed",
@@ -239,7 +251,7 @@
             {
               "name": "turn",
               "type": "number",
-              "value": 300
+              "value": 234
             }
           ]
         },
@@ -250,7 +262,7 @@
             {
               "name": "sense",
               "type": "number",
-              "value": 1.25
+              "value": 1
             },
             {
               "folded": true,
@@ -262,7 +274,7 @@
               "folded": true,
               "name": "turn",
               "type": "number",
-              "value": 1.69
+              "value": 1.25
             }
           ]
         }
@@ -867,7 +879,7 @@
             },
             {
               "type": "BuiltinCommonInstructions::Repeat",
-              "repeatExpression": "300",
+              "repeatExpression": "base.foodamt",
               "conditions": [
                 {
                   "type": {
@@ -897,7 +909,7 @@
             },
             {
               "type": "BuiltinCommonInstructions::Repeat",
-              "repeatExpression": "100",
+              "repeatExpression": "base.population",
               "conditions": [
                 {
                   "type": {
@@ -960,7 +972,7 @@
             },
             {
               "type": "BuiltinCommonInstructions::Repeat",
-              "repeatExpression": "100",
+              "repeatExpression": "base.population",
               "conditions": [
                 {
                   "type": {
@@ -1120,7 +1132,7 @@
                 "creature",
                 "630-RandomInRange(-300,300)",
                 "350-RandomInRange(-300,300)",
-                "base.turn*creature.dna.turningDist",
+                "base.turn*(creature.dna.turningDist*2)",
                 ""
               ]
             }
@@ -1162,7 +1174,7 @@
                 "creature",
                 "Food.X()",
                 "Food.Y()",
-                "(base.turn-50)*creature.dna.turningDist",
+                "(base.turn-50)*(creature.dna.turningDist*2)",
                 ""
               ]
             }
@@ -1564,9 +1576,29 @@
                 "value": "SetNumberVariable"
               },
               "parameters": [
+                "parentDna.speedAvg",
+                "=",
+                "roundTo(parentDna.speedAvg, 3)"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
                 "parentDna.senseavg",
                 "/",
                 "VariableChildCount(parentDna.senseDistance)"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "parentDna.senseavg",
+                "=",
+                "roundTo(parentDna.senseavg, 3)"
               ]
             },
             {
@@ -1584,9 +1616,19 @@
                 "value": "SetNumberVariable"
               },
               "parameters": [
+                "parentDna.turnAvg",
+                "=",
+                "roundTo(parentDna.turnAvg, 3)"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
                 "death",
                 "=",
-                "100-VariableChildCount(parentDna.senseDistance)"
+                "base.population-VariableChildCount(parentDna.senseDistance)"
               ]
             },
             {
@@ -1595,7 +1637,7 @@
               },
               "parameters": [
                 "",
-                "\"Untitled scene\"",
+                "\"main\"",
                 ""
               ]
             }
@@ -1995,45 +2037,8 @@
               },
               "parameters": [
                 "gameSpeed",
-                "=",
-                "7"
-              ]
-            }
-          ],
-          "actions": [
-            {
-              "type": {
-                "value": "ChangeTimeScale"
-              },
-              "parameters": [
-                "",
-                "32"
-              ]
-            },
-            {
-              "type": {
-                "value": "TextContainerCapability::TextContainerBehavior::SetValue"
-              },
-              "parameters": [
-                "speed",
-                "Text",
-                "=",
-                "\"speed: \"+ToString(TimeScale())"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "BuiltinCommonInstructions::Standard",
-          "conditions": [
-            {
-              "type": {
-                "value": "NumberVariable"
-              },
-              "parameters": [
-                "gameSpeed",
                 ">=",
-                "8"
+                "7"
               ]
             }
           ],
