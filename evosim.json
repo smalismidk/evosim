@@ -1,7 +1,7 @@
 {
   "firstLayout": "",
   "gdVersion": {
-    "build": 209,
+    "build": 213,
     "major": 5,
     "minor": 4,
     "revision": 0
@@ -507,6 +507,18 @@
       },
       "events": [
         {
+          "type": "BuiltinCommonInstructions::Comment",
+          "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+          },
+          "comment": "Start of a generation\nInits stuff that needs to be done before generation\nalso logs stats in the console"
+        },
+        {
           "type": "BuiltinCommonInstructions::Standard",
           "conditions": [
             {
@@ -587,22 +599,6 @@
             },
             {
               "type": {
-                "value": "ClearVariableChildren"
-              },
-              "parameters": [
-                "parentDna.speed"
-              ]
-            },
-            {
-              "type": {
-                "value": "ClearVariableChildren"
-              },
-              "parameters": [
-                "parentDna.senseDistance"
-              ]
-            },
-            {
-              "type": {
                 "value": "ZoomCamera"
               },
               "parameters": [
@@ -614,6 +610,18 @@
             }
           ],
           "events": [
+            {
+              "type": "BuiltinCommonInstructions::Comment",
+              "color": {
+                "b": 109,
+                "g": 230,
+                "r": 255,
+                "textB": 0,
+                "textG": 0,
+                "textR": 0
+              },
+              "comment": "Generates food and random creatures on generation 1\ngeneration 2 generates creatures based on the previous generation average, needs to be made better LOOL"
+            },
             {
               "type": "BuiltinCommonInstructions::Repeat",
               "repeatExpression": "300",
@@ -751,55 +759,16 @@
           ]
         },
         {
-          "type": "BuiltinCommonInstructions::Standard",
-          "conditions": [
-            {
-              "type": {
-                "value": "AjoutObjConcern"
-              },
-              "parameters": [
-                "",
-                "creature"
-              ]
-            },
-            {
-              "type": {
-                "value": "PickNearest"
-              },
-              "parameters": [
-                "Food",
-                "creature.X()",
-                "creature.Y()",
-                ""
-              ]
-            },
-            {
-              "type": {
-                "inverted": true,
-                "value": "Distance"
-              },
-              "parameters": [
-                "creature",
-                "Food",
-                "200*creature.dna.senseDistance",
-                ""
-              ]
-            }
-          ],
-          "actions": [
-            {
-              "type": {
-                "value": "RotateTowardPosition"
-              },
-              "parameters": [
-                "creature",
-                "630-RandomInRange(-300,300)",
-                "350-RandomInRange(-300,300)",
-                "345",
-                ""
-              ]
-            }
-          ]
+          "type": "BuiltinCommonInstructions::Comment",
+          "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+          },
+          "comment": "If the creature senses food it will turn towards it\nif the creature doesnt sense food it will try going towards the center\nalso moves the creature forward every frame"
         },
         {
           "type": "BuiltinCommonInstructions::Standard",
@@ -856,6 +825,86 @@
           "conditions": [
             {
               "type": {
+                "value": "AjoutObjConcern"
+              },
+              "parameters": [
+                "",
+                "creature"
+              ]
+            },
+            {
+              "type": {
+                "value": "PickNearest"
+              },
+              "parameters": [
+                "Food",
+                "creature.X()",
+                "creature.Y()",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "inverted": true,
+                "value": "Distance"
+              },
+              "parameters": [
+                "creature",
+                "Food",
+                "210*creature.dna.senseDistance",
+                ""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "RotateTowardPosition"
+              },
+              "parameters": [
+                "creature",
+                "630-RandomInRange(-300,300)",
+                "350-RandomInRange(-300,300)",
+                "345",
+                ""
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [],
+          "actions": [
+            {
+              "type": {
+                "value": "AddForceAL"
+              },
+              "parameters": [
+                "creature",
+                "creature.Angle()",
+                "69*creature.dna.speed",
+                ""
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Comment",
+          "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+          },
+          "comment": "checks if food is eatable and eats it"
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
                 "value": "CollisionNP"
               },
               "parameters": [
@@ -891,26 +940,16 @@
           ]
         },
         {
-          "type": "BuiltinCommonInstructions::Standard",
-          "conditions": [],
-          "actions": [
-            {
-              "type": {
-                "value": "AddForceAL"
-              },
-              "parameters": [
-                "creature",
-                "creature.Angle()",
-                "69*creature.dna.speed",
-                ""
-              ]
-            }
-          ]
-        },
-        {
-          "type": "BuiltinCommonInstructions::Standard",
-          "conditions": [],
-          "actions": []
+          "type": "BuiltinCommonInstructions::Comment",
+          "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+          },
+          "comment": "Kills all creatures who have not eaten enough food after 20 seconds"
         },
         {
           "type": "BuiltinCommonInstructions::Standard",
@@ -956,13 +995,36 @@
                 "creature",
                 ""
               ]
+            },
+            {
+              "type": {
+                "value": "ClearVariableChildren"
+              },
+              "parameters": [
+                "parentDna.senseDistance"
+              ]
+            },
+            {
+              "type": {
+                "value": "ClearVariableChildren"
+              },
+              "parameters": [
+                "parentDna.speed"
+              ]
             }
           ]
         },
         {
-          "type": "BuiltinCommonInstructions::Standard",
-          "conditions": [],
-          "actions": []
+          "type": "BuiltinCommonInstructions::Comment",
+          "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+          },
+          "comment": "it adds all the surviving creatures stats to an array"
         },
         {
           "type": "BuiltinCommonInstructions::ForEach",
@@ -1026,6 +1088,18 @@
               ]
             }
           ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Comment",
+          "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+          },
+          "comment": "it takes all values in the array and makes an average from it using it for the next generation stats\nonce all of that is done it restarts the scene"
         },
         {
           "type": "BuiltinCommonInstructions::Standard",
