@@ -114,6 +114,7 @@
           "value": 0
         },
         {
+          "folded": true,
           "name": "speed",
           "type": "array",
           "children": []
@@ -121,6 +122,18 @@
         {
           "folded": true,
           "name": "speedAvg",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "folded": true,
+          "name": "turn",
+          "type": "array",
+          "children": []
+        },
+        {
+          "folded": true,
+          "name": "turnAvg",
           "type": "number",
           "value": 0
         }
@@ -154,7 +167,7 @@
         "gridColor": 10401023,
         "gridAlpha": 0.8,
         "snap": false,
-        "zoomFactor": 0.31119749424452037,
+        "zoomFactor": 0.6672773998329982,
         "windowMask": false
       },
       "objectsGroups": [],
@@ -167,6 +180,11 @@
         },
         {
           "name": "child2",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "child3",
           "type": "number",
           "value": 0
         }
@@ -257,6 +275,12 @@
                 },
                 {
                   "name": "speed",
+                  "type": "number",
+                  "value": 1
+                },
+                {
+                  "folded": true,
+                  "name": "turningDist",
                   "type": "number",
                   "value": 1
                 }
@@ -583,7 +607,7 @@
                 "NewText",
                 "Text",
                 "=",
-                "\"spd\"+ToString(ToNumber(parentDna.speedAvg))+\" sense\"+ToString(ToNumber(parentDna.senseavg))"
+                "\"spd\"+parentDna.speedAvg+\" sense\"+parentDna.senseavg+\" turn\"+ parentDna.turnAvg"
               ]
             },
             {
@@ -594,7 +618,7 @@
                 "generationtxt",
                 "Text",
                 "=",
-                "ToString(ToNumber(generation))"
+                "generation"
               ]
             },
             {
@@ -701,6 +725,17 @@
                     "=",
                     "RandomFloatInRange(0.5,1.5)"
                   ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberObjectVariable"
+                  },
+                  "parameters": [
+                    "creature",
+                    "dna.turningDist",
+                    "=",
+                    "RandomFloatInRange(0.5,1.5)"
+                  ]
                 }
               ]
             },
@@ -753,6 +788,17 @@
                     "=",
                     "parentDna.senseavg-RandomFloatInRange(-0.3,0.3)*RandomFloatInRange(0.25,1.25)"
                   ]
+                },
+                {
+                  "type": {
+                    "value": "SetNumberObjectVariable"
+                  },
+                  "parameters": [
+                    "creature",
+                    "dna.turningDist",
+                    "=",
+                    "parentDna.turnAvg-RandomFloatInRange(-0.3,0.3)*RandomFloatInRange(0.25,1.25)"
+                  ]
                 }
               ]
             }
@@ -771,67 +817,9 @@
           "comment": "If the creature senses food it will turn towards it\nif the creature doesnt sense food it will try going towards the center\nalso moves the creature forward every frame"
         },
         {
-          "type": "BuiltinCommonInstructions::Standard",
+          "type": "BuiltinCommonInstructions::ForEach",
+          "object": "creature",
           "conditions": [
-            {
-              "type": {
-                "value": "AjoutObjConcern"
-              },
-              "parameters": [
-                "",
-                "creature"
-              ]
-            },
-            {
-              "type": {
-                "value": "PickNearest"
-              },
-              "parameters": [
-                "Food",
-                "creature.X()",
-                "creature.Y()",
-                ""
-              ]
-            },
-            {
-              "type": {
-                "value": "Distance"
-              },
-              "parameters": [
-                "creature",
-                "Food",
-                "200*creature.dna.senseDistance",
-                ""
-              ]
-            }
-          ],
-          "actions": [
-            {
-              "type": {
-                "value": "RotateTowardPosition"
-              },
-              "parameters": [
-                "creature",
-                "Food.X()",
-                "Food.Y()",
-                "500",
-                ""
-              ]
-            }
-          ]
-        },
-        {
-          "type": "BuiltinCommonInstructions::Standard",
-          "conditions": [
-            {
-              "type": {
-                "value": "AjoutObjConcern"
-              },
-              "parameters": [
-                "",
-                "creature"
-              ]
-            },
             {
               "type": {
                 "value": "PickNearest"
@@ -851,7 +839,7 @@
               "parameters": [
                 "creature",
                 "Food",
-                "210*creature.dna.senseDistance",
+                "350",
                 ""
               ]
             }
@@ -865,7 +853,49 @@
                 "creature",
                 "630-RandomInRange(-300,300)",
                 "350-RandomInRange(-300,300)",
-                "345",
+                "325*creature.dna.turningDist",
+                ""
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::ForEach",
+          "object": "creature",
+          "conditions": [
+            {
+              "type": {
+                "value": "PickNearest"
+              },
+              "parameters": [
+                "Food",
+                "creature.X()",
+                "creature.Y()",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "Distance"
+              },
+              "parameters": [
+                "creature",
+                "Food",
+                "350*creature.dna.senseDistance",
+                ""
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "RotateTowardPosition"
+              },
+              "parameters": [
+                "creature",
+                "Food.X()",
+                "Food.Y()",
+                "(325-50)*creature.dna.turningDist",
                 ""
               ]
             }
@@ -965,13 +995,32 @@
             },
             {
               "type": {
-                "value": "CompareTimer"
+                "value": "BuiltinCommonInstructions::Or"
               },
-              "parameters": [
-                "",
-                "\"Generation\"",
-                ">=",
-                "20"
+              "parameters": [],
+              "subInstructions": [
+                {
+                  "type": {
+                    "value": "CompareTimer"
+                  },
+                  "parameters": [
+                    "",
+                    "\"Generation\"",
+                    ">=",
+                    "20"
+                  ]
+                },
+                {
+                  "type": {
+                    "value": "SceneInstancesCount"
+                  },
+                  "parameters": [
+                    "",
+                    "Food",
+                    "<=",
+                    "0"
+                  ]
+                }
               ]
             },
             {
@@ -982,7 +1031,7 @@
                 "creature",
                 "stats.foodEaten",
                 "<",
-                "(1+1*creature.dna.speed)+(1+0.5*creature.dna.senseDistance)"
+                "(1+1*creature.dna.speed)+(1+0.5*creature.dna.senseDistance)+(1+0.8*creature.dna.turningDist)"
               ]
             }
           ],
@@ -1011,6 +1060,15 @@
               "parameters": [
                 "parentDna.speed"
               ]
+            },
+            {
+              "type": {
+                "value": "ResetTimer"
+              },
+              "parameters": [
+                "",
+                "\"Purge\""
+              ]
             }
           ]
         },
@@ -1036,9 +1094,9 @@
               },
               "parameters": [
                 "",
-                "\"Generation\"",
+                "\"Purge\"",
                 ">=",
-                "21"
+                "1"
               ]
             },
             {
@@ -1069,6 +1127,15 @@
             },
             {
               "type": {
+                "value": "PushNumber"
+              },
+              "parameters": [
+                "parentDna.turn",
+                "creature.dna.turningDist"
+              ]
+            },
+            {
+              "type": {
                 "value": "SetNumberVariable"
               },
               "parameters": [
@@ -1083,6 +1150,16 @@
               },
               "parameters": [
                 "parentDna.senseavg",
+                "=",
+                "0"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "parentDna.turnAvg",
                 "=",
                 "0"
               ]
@@ -1110,9 +1187,9 @@
               },
               "parameters": [
                 "",
-                "\"Generation\"",
+                "\"Purge\"",
                 ">=",
-                "22"
+                "2"
               ]
             },
             {
@@ -1124,6 +1201,25 @@
           ],
           "actions": [],
           "events": [
+            {
+              "type": "BuiltinCommonInstructions::ForEachChildVariable",
+              "iterableVariableName": "parentDna.turn",
+              "valueIteratorVariableName": "child3",
+              "keyIteratorVariableName": "",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetNumberVariable"
+                  },
+                  "parameters": [
+                    "parentDna.turnAvg",
+                    "+",
+                    "child3"
+                  ]
+                }
+              ]
+            },
             {
               "type": "BuiltinCommonInstructions::ForEachChildVariable",
               "iterableVariableName": "parentDna.senseDistance",
@@ -1173,9 +1269,9 @@
               },
               "parameters": [
                 "",
-                "\"Generation\"",
+                "\"Purge\"",
                 ">=",
-                "23"
+                "3"
               ]
             },
             {
@@ -1211,6 +1307,16 @@
                 "value": "SetNumberVariable"
               },
               "parameters": [
+                "parentDna.turnAvg",
+                "/",
+                "VariableChildCount(parentDna.turn)"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
                 "death",
                 "=",
                 "100-VariableChildCount(parentDna.senseDistance)"
@@ -1227,6 +1333,11 @@
               ]
             }
           ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [],
+          "actions": []
         }
       ],
       "layers": [
