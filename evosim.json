@@ -144,6 +144,12 @@
       "name": "death",
       "type": "number",
       "value": 0
+    },
+    {
+      "folded": true,
+      "name": "dataforexport",
+      "type": "array",
+      "children": []
     }
   ],
   "layouts": [
@@ -167,7 +173,7 @@
         "gridColor": 10401023,
         "gridAlpha": 0.8,
         "snap": false,
-        "zoomFactor": 0.6672773998329982,
+        "zoomFactor": 0.7370816317994037,
         "windowMask": false
       },
       "objectsGroups": [],
@@ -187,6 +193,61 @@
           "name": "child3",
           "type": "number",
           "value": 0
+        },
+        {
+          "name": "child4",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "folded": true,
+          "name": "tempexport",
+          "type": "string",
+          "value": ""
+        },
+        {
+          "name": "base",
+          "type": "structure",
+          "children": [
+            {
+              "name": "sense",
+              "type": "number",
+              "value": 250
+            },
+            {
+              "name": "speed",
+              "type": "number",
+              "value": 69
+            },
+            {
+              "name": "turn",
+              "type": "number",
+              "value": 300
+            }
+          ]
+        },
+        {
+          "name": "weights",
+          "type": "structure",
+          "children": [
+            {
+              "name": "sense",
+              "type": "number",
+              "value": 1.25
+            },
+            {
+              "folded": true,
+              "name": "speed",
+              "type": "number",
+              "value": 2.1
+            },
+            {
+              "folded": true,
+              "name": "turn",
+              "type": "number",
+              "value": 1.69
+            }
+          ]
         }
       ],
       "instances": [
@@ -250,6 +311,22 @@
           "x": 1869,
           "y": 1040,
           "zOrder": 4,
+          "numberProperties": [],
+          "stringProperties": [],
+          "initialVariables": []
+        },
+        {
+          "angle": 0,
+          "customSize": false,
+          "height": 0,
+          "keepRatio": true,
+          "layer": "ui",
+          "name": "export",
+          "persistentUuid": "1d4f8b6a-3f11-499e-a6b2-462bd0f7a2b5",
+          "width": 0,
+          "x": 16,
+          "y": 671,
+          "zOrder": 5,
           "numberProperties": [],
           "stringProperties": [],
           "initialVariables": []
@@ -510,6 +587,47 @@
             "characterSize": 20,
             "color": "0;0;0"
           }
+        },
+        {
+          "assetStoreId": "",
+          "bold": false,
+          "italic": false,
+          "name": "export",
+          "smoothed": true,
+          "type": "TextObject::Text",
+          "underlined": false,
+          "variables": [],
+          "effects": [],
+          "behaviors": [],
+          "string": "export data",
+          "font": "",
+          "textAlignment": "left",
+          "characterSize": 30,
+          "color": {
+            "b": 0,
+            "g": 0,
+            "r": 0
+          },
+          "content": {
+            "bold": false,
+            "isOutlineEnabled": false,
+            "isShadowEnabled": false,
+            "italic": false,
+            "outlineColor": "255;255;255",
+            "outlineThickness": 2,
+            "shadowAngle": 90,
+            "shadowBlurRadius": 2,
+            "shadowColor": "0;0;0",
+            "shadowDistance": 4,
+            "shadowOpacity": 127,
+            "smoothed": true,
+            "underlined": false,
+            "text": "export data",
+            "font": "",
+            "textAlignment": "left",
+            "characterSize": 30,
+            "color": "0;0;0"
+          }
         }
       ],
       "objectsFolderStructure": {
@@ -517,6 +635,9 @@
         "children": [
           {
             "objectName": "creature"
+          },
+          {
+            "objectName": "export"
           },
           {
             "objectName": "generationtxt"
@@ -530,6 +651,18 @@
         ]
       },
       "events": [
+        {
+          "type": "BuiltinCommonInstructions::Comment",
+          "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+          },
+          "comment": "MODIFY IMPORTANT VALUES IN SCENE VARIABLES\nDO NOT TOUCH ANY OF THE VARIABLES NAMED \"CHILD\" AND A NUMBER"
+        },
         {
           "type": "BuiltinCommonInstructions::Comment",
           "color": {
@@ -584,9 +717,29 @@
                 "value": "DebuggerTools::ConsoleLog"
               },
               "parameters": [
-                "\"gen\"+generation+\" spd\"+parentDna.speedAvg+\" sense\"+parentDna.senseavg+\" death\"+death",
+                "\"gen\"+generation+\" spd\"+parentDna.speedAvg+\" sense\"+parentDna.senseavg+\" turn\"+ parentDna.turnAvg+\" death\"+death",
                 "\"info\"",
                 ""
+              ]
+            },
+            {
+              "type": {
+                "value": "PushString"
+              },
+              "parameters": [
+                "dataforexport",
+                "\"gen\"+generation+\" spd\"+parentDna.speedAvg+\" sense\"+parentDna.senseavg+\" turn\"+ parentDna.turnAvg+\" death\"+death"
+              ]
+            },
+            {
+              "type": {
+                "value": "TextContainerCapability::TextContainerBehavior::SetValue"
+              },
+              "parameters": [
+                "generationtxt",
+                "Text",
+                "=",
+                "\"gen\"+generation"
               ]
             },
             {
@@ -607,18 +760,7 @@
                 "NewText",
                 "Text",
                 "=",
-                "\"spd\"+parentDna.speedAvg+\" sense\"+parentDna.senseavg+\" turn\"+ parentDna.turnAvg"
-              ]
-            },
-            {
-              "type": {
-                "value": "TextContainerCapability::TextContainerBehavior::SetValue"
-              },
-              "parameters": [
-                "generationtxt",
-                "Text",
-                "=",
-                "generation"
+                "\"spd\"+parentDna.speedAvg+\" sense\"+parentDna.senseavg+\" turn\"+ parentDna.turnAvg+\" death\"+death"
               ]
             },
             {
@@ -839,7 +981,7 @@
               "parameters": [
                 "creature",
                 "Food",
-                "350",
+                "base.sense*creature.dna.senseDistance",
                 ""
               ]
             }
@@ -853,7 +995,7 @@
                 "creature",
                 "630-RandomInRange(-300,300)",
                 "350-RandomInRange(-300,300)",
-                "325*creature.dna.turningDist",
+                "base.turn*creature.dna.turningDist",
                 ""
               ]
             }
@@ -881,7 +1023,7 @@
               "parameters": [
                 "creature",
                 "Food",
-                "350*creature.dna.senseDistance",
+                "base.sense*creature.dna.senseDistance",
                 ""
               ]
             }
@@ -895,7 +1037,7 @@
                 "creature",
                 "Food.X()",
                 "Food.Y()",
-                "(325-50)*creature.dna.turningDist",
+                "(base.turn-50)*creature.dna.turningDist",
                 ""
               ]
             }
@@ -912,7 +1054,7 @@
               "parameters": [
                 "creature",
                 "creature.Angle()",
-                "69*creature.dna.speed",
+                "base.speed*creature.dna.speed",
                 ""
               ]
             }
@@ -1031,7 +1173,7 @@
                 "creature",
                 "stats.foodEaten",
                 "<",
-                "(1+1*creature.dna.speed)+(1+0.5*creature.dna.senseDistance)+(1+0.8*creature.dna.turningDist)"
+                "(weights.speed*creature.dna.speed)+(weights.sense*creature.dna.senseDistance)+(weights.turn*creature.dna.turningDist)"
               ]
             }
           ],
@@ -1338,6 +1480,98 @@
           "type": "BuiltinCommonInstructions::Standard",
           "conditions": [],
           "actions": []
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "SourisSurObjet"
+              },
+              "parameters": [
+                "export",
+                "",
+                "",
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "MouseButtonReleased"
+              },
+              "parameters": [
+                "",
+                "Left"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "ResetTimer"
+              },
+              "parameters": [
+                "",
+                "\"export\""
+              ]
+            }
+          ],
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::ForEachChildVariable",
+              "iterableVariableName": "dataforexport",
+              "valueIteratorVariableName": "child4",
+              "keyIteratorVariableName": "",
+              "conditions": [],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetStringVariable"
+                  },
+                  "parameters": [
+                    "tempexport",
+                    "=",
+                    "tempexport+\"\n\"+child4"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "CompareTimer"
+              },
+              "parameters": [
+                "",
+                "\"export\"",
+                ">=",
+                "1"
+              ]
+            },
+            {
+              "type": {
+                "value": "BuiltinCommonInstructions::Once"
+              },
+              "parameters": []
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "UploadDownloadTextFile::DownloadTextFile"
+              },
+              "parameters": [
+                "",
+                "\"evosimrun \"+ToString(Time(\"mday\"))+ToString(Time(\"mon\"))+ToString(Time(\"year\"))",
+                "tempexport",
+                ""
+              ]
+            }
+          ]
         }
       ],
       "layers": [
@@ -1452,7 +1686,204 @@
     }
   ],
   "externalEvents": [],
-  "eventsFunctionsExtensions": [],
+  "eventsFunctionsExtensions": [
+    {
+      "author": "",
+      "category": "Network",
+      "extensionNamespace": "",
+      "fullName": "Upload Download Text File",
+      "helpPath": "https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications",
+      "iconUrl": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0ibWRpLXVwbG9hZCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGQ9Ik05LDE2VjEwSDVMMTIsM0wxOSwxMEgxNVYxNkg5TTUsMjBWMThIMTlWMjBINVoiIC8+PC9zdmc+",
+      "name": "UploadDownloadTextFile",
+      "previewIconUrl": "https://asset-resources.gdevelop.io/public-resources/Icons/16a8e2514d1c9a57f65f506bb7a420bf63e53dc56c58dfceff63178893031c69_upload.svg",
+      "shortDescription": "Allows users to upload/download text content to a filename and vice versa. ",
+      "version": "1.0.0",
+      "description": [
+        "Allows users to upload/download text content to a filename and vice versa. ",
+        "(The current gdevelop only supports desktop version, this one is compatible with browsers)",
+        "",
+        "[Open this example](https://editor.gdevelop.io/?project=https://resources.gdevelop-app.com/examples/extension-upload-download-text/extension-upload-download-text.json) to learn how to use this extension."
+      ],
+      "origin": {
+        "identifier": "UploadDownloadTextFile",
+        "name": "gdevelop-extension-store"
+      },
+      "tags": [
+        "download",
+        "upload",
+        "text",
+        "file",
+        "browser",
+        "dom apis"
+      ],
+      "authorIds": [
+        "rotBq28wITdtfsrE7McHQri4k2w2"
+      ],
+      "dependencies": [],
+      "globalVariables": [],
+      "sceneVariables": [],
+      "eventsFunctions": [
+        {
+          "description": "Download file with text content.",
+          "fullName": "Download file with text content",
+          "functionType": "Action",
+          "name": "DownloadTextFile",
+          "sentence": "Download text with filename _PARAM1_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "function DownloadTextContent(filename, mimeType,content) {",
+                "    var link = document.createElement('a')",
+                "    var blob = new Blob([content], {type: mimeType})",
+                "    var url = URL.createObjectURL(blob);",
+                "",
+                "    link.setAttribute('href', url);",
+                "    link.setAttribute('download', filename);",
+                "    link.click();",
+                "    link.remove();",
+                "}",
+                "",
+                "const FileName = eventsFunctionContext.getArgument(\"FileName\");",
+                "const TextContent = eventsFunctionContext.getArgument(\"TextContent\");",
+                "",
+                "DownloadTextContent(FileName, \"text/plain\", TextContent);"
+              ],
+              "parameterObjects": "",
+              "useStrict": true,
+              "eventsSheetExpanded": true
+            }
+          ],
+          "parameters": [
+            {
+              "description": "FileName",
+              "name": "FileName",
+              "type": "string"
+            },
+            {
+              "description": "TextContent",
+              "name": "TextContent",
+              "type": "string"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Upload a text file to text input.",
+          "fullName": "Upload a text file to text input",
+          "functionType": "Action",
+          "name": "UploadTextFile",
+          "sentence": "Upload a text file to text input _PARAM1_",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::JsCode",
+              "inlineCode": [
+                "const allowedFileTypes = [\"text/plain\", \"application/json\"];",
+                "",
+                "const InputElement = document.createElement('input');",
+                "InputElement.type = \"file\";",
+                "",
+                "InputElement.addEventListener(\"change\", handleFiles, false);",
+                "InputElement.click();",
+                "",
+                "const SceneVariable = eventsFunctionContext.getArgument(\"SceneVariable\");",
+                "const Uploading = runtimeScene.getVariables().get(\"__UploadDownloadTextFile\");",
+                "",
+                "Uploading.fromJSObject({Uploading:false});",
+                "",
+                "async function handleFiles() {",
+                "  const files = this.files;",
+                "  ",
+                "  if (!files.length) {",
+                "    SceneVariable.setString(\"No Files Selected!\");",
+                "  } else if(!allowedFileTypes.includes(files[0].type)) {",
+                "    SceneVariable.setString(\"Please choose text files only.\");",
+                "  } else {",
+                "    SceneVariable.setString(await files[0].text());",
+                "  }",
+                "",
+                "  Uploading.fromJSObject({Uploading:true});",
+                "  InputElement.remove();",
+                "}"
+              ],
+              "parameterObjects": "TextInput",
+              "useStrict": true,
+              "eventsSheetExpanded": true
+            }
+          ],
+          "parameters": [
+            {
+              "description": "SceneVariable",
+              "name": "SceneVariable",
+              "type": "scenevar"
+            }
+          ],
+          "objectGroups": []
+        },
+        {
+          "description": "Uploading text file finished.",
+          "fullName": "Uploading text file finished?",
+          "functionType": "Condition",
+          "name": "UploadFinished",
+          "sentence": "Uploading text file finished?",
+          "events": [
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "SceneVariableAsBoolean"
+                  },
+                  "parameters": [
+                    "__UploadDownloadTextFile.Uploading",
+                    "False"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "False"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BuiltinCommonInstructions::Standard",
+              "conditions": [
+                {
+                  "type": {
+                    "value": "SceneVariableAsBoolean"
+                  },
+                  "parameters": [
+                    "__UploadDownloadTextFile.Uploading",
+                    "True"
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": {
+                    "value": "SetReturnBoolean"
+                  },
+                  "parameters": [
+                    "True"
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [],
+          "objectGroups": []
+        }
+      ],
+      "eventsBasedBehaviors": [],
+      "eventsBasedObjects": []
+    }
+  ],
   "externalLayouts": [],
   "externalSourceFiles": []
 }
