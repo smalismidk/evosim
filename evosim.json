@@ -803,6 +803,36 @@
             },
             {
               "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "parentDna.speedAvg",
+                "*",
+                "1000"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "parentDna.senseavg",
+                "*",
+                "1000"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "parentDna.turnAvg",
+                "*",
+                "1000"
+              ]
+            },
+            {
+              "type": {
                 "value": "DebuggerTools::ConsoleLog"
               },
               "parameters": [
@@ -818,6 +848,36 @@
               "parameters": [
                 "dataforexport",
                 "generation+\",\"+parentDna.speedAvg+\",\"+parentDna.senseavg+\",\"+ parentDna.turnAvg+\",\"+death"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "parentDna.speedAvg",
+                "/",
+                "1000"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "parentDna.senseavg",
+                "/",
+                "1000"
+              ]
+            },
+            {
+              "type": {
+                "value": "SetNumberVariable"
+              },
+              "parameters": [
+                "parentDna.turnAvg",
+                "/",
+                "1000"
               ]
             },
             {
