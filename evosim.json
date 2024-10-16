@@ -805,7 +805,7 @@
               },
               "parameters": [
                 "dataforexport",
-                "\"gen\"+generation+\", spd\"+parentDna.speedAvg+\", sense\"+parentDna.senseavg+\", turn\"+ parentDna.turnAvg+\", death\"+death"
+                "generation+\",\"+parentDna.speedAvg+\",\"+parentDna.senseavg+\",\"+ parentDna.turnAvg+\",\"+death"
               ]
             },
             {
@@ -1019,6 +1019,54 @@
                     "parentDna.turnAvg-RandomFloatInRange(-0.3,0.3)*RandomFloatInRange(0.25,1.25)"
                   ]
                 }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "DepartScene"
+              },
+              "parameters": [
+                ""
+              ]
+            },
+            {
+              "type": {
+                "value": "NumberVariable"
+              },
+              "parameters": [
+                "generation",
+                "=",
+                "1"
+              ]
+            },
+            {
+              "type": {
+                "value": "BuiltinCommonInstructions::Once"
+              },
+              "parameters": []
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "ClearVariableChildren"
+              },
+              "parameters": [
+                "dataforexport"
+              ]
+            },
+            {
+              "type": {
+                "value": "PushString"
+              },
+              "parameters": [
+                "dataforexport",
+                "\"generation, speed, sense, turn, deaths\""
               ]
             }
           ]
@@ -1705,6 +1753,18 @@
           ]
         },
         {
+          "type": "BuiltinCommonInstructions::Comment",
+          "color": {
+            "b": 109,
+            "g": 230,
+            "r": 255,
+            "textB": 0,
+            "textG": 0,
+            "textR": 0
+          },
+          "comment": "gamespeed upgrades although usually breaks simulation results if gamespeed is 16 or more"
+        },
+        {
           "type": "BuiltinCommonInstructions::Standard",
           "conditions": [
             {
@@ -1947,7 +2007,7 @@
               },
               "parameters": [
                 "",
-                "24"
+                "32"
               ]
             },
             {
