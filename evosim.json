@@ -190,38 +190,11 @@
         "gridColor": 10401023,
         "gridAlpha": 0.8,
         "snap": false,
-        "zoomFactor": 0.814188120370992,
+        "zoomFactor": 0.5653158055126322,
         "windowMask": false
       },
       "objectsGroups": [],
       "variables": [
-        {
-          "folded": true,
-          "name": "child",
-          "type": "number",
-          "value": 0
-        },
-        {
-          "name": "child2",
-          "type": "number",
-          "value": 0
-        },
-        {
-          "name": "child3",
-          "type": "number",
-          "value": 0
-        },
-        {
-          "name": "child4",
-          "type": "number",
-          "value": 0
-        },
-        {
-          "folded": true,
-          "name": "tempexport",
-          "type": "string",
-          "value": ""
-        },
         {
           "name": "base",
           "type": "structure",
@@ -230,7 +203,13 @@
               "folded": true,
               "name": "foodamt",
               "type": "number",
-              "value": 250
+              "value": 300
+            },
+            {
+              "folded": true,
+              "name": "foodfix",
+              "type": "number",
+              "value": 2
             },
             {
               "folded": true,
@@ -262,7 +241,7 @@
             {
               "name": "sense",
               "type": "number",
-              "value": 2
+              "value": 1.4
             },
             {
               "folded": true,
@@ -274,9 +253,36 @@
               "folded": true,
               "name": "turn",
               "type": "number",
-              "value": 1.5
+              "value": 1.75
             }
           ]
+        },
+        {
+          "folded": true,
+          "name": "child",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "child2",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "child3",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "name": "child4",
+          "type": "number",
+          "value": 0
+        },
+        {
+          "folded": true,
+          "name": "tempexport",
+          "type": "string",
+          "value": ""
         }
       ],
       "instances": [
@@ -308,38 +314,6 @@
           "x": 21,
           "y": 51,
           "zOrder": 2,
-          "numberProperties": [],
-          "stringProperties": [],
-          "initialVariables": []
-        },
-        {
-          "angle": 0,
-          "customSize": false,
-          "height": 0,
-          "keepRatio": true,
-          "layer": "",
-          "name": "Food",
-          "persistentUuid": "9e9bb967-cb1e-4f39-b246-32f21a7533ca",
-          "width": 0,
-          "x": -577,
-          "y": -280,
-          "zOrder": 3,
-          "numberProperties": [],
-          "stringProperties": [],
-          "initialVariables": []
-        },
-        {
-          "angle": 0,
-          "customSize": false,
-          "height": 0,
-          "keepRatio": true,
-          "layer": "",
-          "name": "Food",
-          "persistentUuid": "280e7713-cab8-4ccb-8a41-07b3251f0698",
-          "width": 0,
-          "x": 1869,
-          "y": 1040,
-          "zOrder": 4,
           "numberProperties": [],
           "stringProperties": [],
           "initialVariables": []
@@ -444,22 +418,18 @@
                       "centerPoint": {
                         "automatic": false,
                         "name": "centre",
-                        "x": 40.5,
-                        "y": 31.5
+                        "x": 42.5,
+                        "y": 32
                       },
                       "customCollisionMask": [
                         [
                           {
-                            "x": 0,
-                            "y": 27
+                            "x": 42.5,
+                            "y": 24
                           },
                           {
-                            "x": 24.5,
-                            "y": 23
-                          },
-                          {
-                            "x": 49,
-                            "y": 22
+                            "x": 50,
+                            "y": 23.5
                           },
                           {
                             "x": 64,
@@ -474,12 +444,8 @@
                             "y": 40.5
                           },
                           {
-                            "x": 24.5,
+                            "x": 43,
                             "y": 40.5
-                          },
-                          {
-                            "x": 0,
-                            "y": 35.5
                           }
                         ]
                       ]
@@ -1344,7 +1310,7 @@
                 "creature",
                 "stats.foodEaten",
                 "+",
-                "1"
+                "base.foodfix"
               ]
             }
           ]
